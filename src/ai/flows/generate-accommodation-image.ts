@@ -10,14 +10,14 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const GenerateAccommodationImageInputSchema = z.object({
+const GenerateAccommodationImageInputSchema = z.object({
   name: z.string().describe('The name of the accommodation.'),
   type: z.string().describe('The type of accommodation (e.g., Serviced Apartment, Hotel).'),
   description: z.string().describe('A short description of the accommodation style and features.'),
 });
 export type GenerateAccommodationImageInput = z.infer<typeof GenerateAccommodationImageInputSchema>;
 
-export const GenerateAccommodationImageOutputSchema = z.object({
+const GenerateAccommodationImageOutputSchema = z.object({
     imageUrl: z.string().describe('A data URI for the generated image.')
 });
 export type GenerateAccommodationImageOutput = z.infer<typeof GenerateAccommodationImageOutputSchema>;
