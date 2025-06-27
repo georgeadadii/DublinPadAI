@@ -42,7 +42,7 @@ const prompt = ai.definePrompt({
   name: 'generateLocationPromptPrompt',
   input: {schema: GenerateLocationPromptInputSchema},
   output: {schema: GenerateLocationPromptOutputSchema},
-  prompt: `Based on the user's initial input (User Type: {{{userPrimaryType}}} - {{{userSpecificType}}}, Dates: {{#if inboundDate}}{{{inboundDate}}} to {{{outboundDate}}}{{else}}Moving In: {{{movingInDate}}}{{/if}}, Adults: {{{adults}}}, Children: {{{children}}}, Budget Range: €{{{minBudget}}}-€{{{maxBudget}}} per {{{budgetUnit}}}, Initial Query: '{{{initialFreeformQuery}}}'), generate a concise, conversational question to help them refine their location and neighborhood preferences in Dublin. Emphasize options relevant to their user type and specific situation. Output only plain text of the prompt, nothing else.`, 
+  prompt: `Based on the user's initial input (User Type: {{{userPrimaryType}}} - {{{userSpecificType}}}, Dates: {{#if inboundDate}}{{{inboundDate}}} to {{{outboundDate}}}{{else}}Moving In: {{{movingInDate}}}{{/if}}, Adults: {{{adults}}}, Children: {{{children}}}, Budget Range: €{{{minBudget}}}-€{{{maxBudget}}} per {{{budgetUnit}}}, Initial Query: '{{{initialFreeformQuery}}}'), generate a concise, conversational question to help them refine their location and neighborhood preferences in Dublin. Emphasize options relevant to their user type and specific situation.`, 
 });
 
 const generateLocationPromptFlow = ai.defineFlow(
@@ -53,8 +53,6 @@ const generateLocationPromptFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return {
-      prompt: output!
-    };
+    return output!;
   }
 );
