@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -11,7 +11,9 @@ import { Label } from '@/components/ui/label';
 import { Map } from '@/components/map';
 import { ContactModal } from '@/components/contact-modal';
 import type { AccommodationSuggestion } from '@/lib/types';
-import { CheckCircle, MapPin, Building, DollarSign, Sparkles, MessageSquareQuote } from 'lucide-react';
+import { CheckCircle, MapPin, DollarSign, Sparkles, MessageSquareQuote } from 'lucide-react';
+import { generateAccommodationImage } from '@/ai/flows/generate-accommodation-image';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface AccommodationCardProps {
   suggestion: AccommodationSuggestion;
@@ -20,6 +22,32 @@ interface AccommodationCardProps {
 export function AccommodationCard({ suggestion }: AccommodationCardProps) {
   const [viewMode, setViewMode] = useState<'images' | 'map'>('images');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(true);
+
+  useEffect(() => {
+    const generateImage = async () => {
+      try {
+        setIsGeneratingImage(true);
+        const result = await generateAccommodationImage({
+          name: suggestion.name,
+          type: suggestion.type,
+          description: suggestion.whyThisSuggestion,
+        });
+        setGeneratedImageUrl(result.imageUrl);
+      } catch (error) {
+        console.error('Failed to generate image:', error);
+      } finally {
+        setIsGeneratingImage(false);
+      }
+    };
+
+    if (suggestion.name && suggestion.type && suggestion.whyThisSuggestion) {
+      generateImage();
+    } else {
+      setIsGeneratingImage(false);
+    }
+  }, [suggestion.name, suggestion.type, suggestion.whyThisSuggestion]);
 
   return (
     <>
@@ -52,14 +80,18 @@ export function AccommodationCard({ suggestion }: AccommodationCardProps) {
                 <Carousel className="w-full h-full">
                   <CarouselContent>
                     <CarouselItem>
-                      <Image
-                        src={suggestion.imageUrl || 'https://placehold.co/600x400.png'}
-                        alt={suggestion.name}
-                        width={600}
-                        height={400}
-                        className="object-cover w-full h-full"
-                        data-ai-hint="apartment interior"
-                      />
+                      {isGeneratingImage ? (
+                        <Skeleton className="w-full h-full" />
+                      ) : (
+                        <Image
+                          src={generatedImageUrl || 'https://placehold.co/600x400.png'}
+                          alt={suggestion.name}
+                          width={600}
+                          height={400}
+                          className="object-cover w-full h-full"
+                          data-ai-hint="apartment interior"
+                        />
+                      )}
                     </CarouselItem>
                   </CarouselContent>
                   <CarouselPrevious />
