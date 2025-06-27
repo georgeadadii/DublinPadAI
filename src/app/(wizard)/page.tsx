@@ -86,7 +86,7 @@ export default function WelcomePage() {
               {(['Student', 'Working Individual', 'Tourist'] as UserPrimaryType[]).map((type) => (
                 <div key={type} className="flex-1">
                   <RadioGroupItem value={type} id={type} className="sr-only" />
-                  <Label htmlFor={type} className="flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors">
+                  <Label htmlFor={type} className="flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-accent [&:has([data-state=checked])]:text-accent-foreground [&:has([data-state=checked])]:border-primary">
                     {type}
                   </Label>
                 </div>

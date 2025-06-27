@@ -60,7 +60,7 @@ export default function StyleSpecialNeedsPage() {
                                 {styleOptions.map(option => (
                                     <div key={option}>
                                         <RadioGroupItem value={option} id={option} className="sr-only" />
-                                        <Label htmlFor={option} className="flex flex-col items-center text-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors">
+                                        <Label htmlFor={option} className="flex flex-col items-center text-center justify-center rounded-md border-2 border-muted bg-popover p-4 cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-accent [&:has([data-state=checked])]:text-accent-foreground [&:has([data-state=checked])]:border-primary">
                                             {option}
                                         </Label>
                                     </div>
@@ -78,7 +78,7 @@ export default function StyleSpecialNeedsPage() {
                                 {soundOptions.map(option => (
                                     <div key={option} className="flex-1">
                                         <RadioGroupItem value={option} id={option} className="sr-only" />
-                                        <Label htmlFor={option} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors">
+                                        <Label htmlFor={option} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-accent [&:has([data-state=checked])]:text-accent-foreground [&:has([data-state=checked])]:border-primary">
                                             {option}
                                         </Label>
                                     </div>
